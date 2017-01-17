@@ -1,29 +1,24 @@
-This folder contains an example of use of the [WholeBodyInterface (WBI)](https://github.com/robotology/wholebodyinterface).
+Computed Torque with iCub
+========================
 
-To install the dependencies please use the [Codyco superbuild](https://github.com/robotology/codyco-superbuild).
+# Prerequisites
 
-Any issues related to the use of the WBI should be opened in the respective repository (either [here](https://github.com/robotology/wholebodyinterface/issues) or [here](https://github.com/robotology/yarp-wholebodyinterface/issues)).
+To fully complete this assignment you should be familiar to the following components:
 
+- (Theory) Computed torque control
+- WholeBody Interface
+- YARP ports 
 
-###Running the example
+# Assignment
+You should develop a computed torque controller for the iCub humanoid robot.
 
-This example shows a simple use of the whole body interface.
-It implements a PD plus gravity compensation (which in its nature is quite generic), but references are targeted to the iCub robot.
+Joint position references for the controller come through a streaming port (call it `/{yourmodulename}/qDes:i`).
 
-The folder also contains the urdf model of iCub and a configuration file to use the wbi with the model.
-This has been done to make this module independent from the configuration files shipped in the codyco-superbuild, but it is not meant to be used as a real-world scenario module.
+The robot will be fixed in his root link (i.e. the pelvis), so you are not required to control the full free floating dynamics. Note however that the functions refer to a free floating dynamics, so you have to pay particular care to the variables size.
 
-Once you compiled the example
+# Note
 
-```
-mkdir build
-cd build
-cmake ..
-make
-```
+We provide a skeleton of the YARP controller with the methods partially implemented. 
+In particular we implemented for you the initialization of the WholeBodyInterface object.
 
-you can launch it by specifying the configuration files:
-
-```
-./build/WBI_example --wbi_config_file wbi-config.ini
-```
+# [How to complete the assignment](https://github.com/vvv-school/vvv-school.github.io/blob/master/instructions/how-to-complete-assignments.md)
