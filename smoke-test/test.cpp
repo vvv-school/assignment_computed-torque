@@ -106,6 +106,7 @@ RTF_TEST_REPORT(Asserter::format("DOFS: %d", actuatedDOFs));
     {
         RTF_TEST_REPORT("Closing Ports");
         portReference.close();
+        m_robot->close();
     }
     
     /******************************************************************/
