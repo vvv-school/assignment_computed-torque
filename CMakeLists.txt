@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
 
-project(assignment_computed_torque)
+project(assignment_computed-torque)
 
 find_package(YARP REQUIRED)
 find_package(ICUBcontrib REQUIRED)
