@@ -6,4 +6,4 @@
 
 # Put here those instructions we need to execute before running the test
 
-
+export YARP_ROBOT_NAME=icubGazeboSim
