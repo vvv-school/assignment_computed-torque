@@ -14,6 +14,7 @@ int main(int argc, char **argv)
     ResourceFinder rf = ResourceFinder::getResourceFinderSingleton();
     rf.configure(argc, argv);
     Module module;
+    module.setName("computed-torque");
     
     return module.runModule(rf);
 }
