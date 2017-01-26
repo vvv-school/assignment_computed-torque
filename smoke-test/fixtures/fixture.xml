@@ -11,6 +11,7 @@
     </module>
     <module>
         <name>assignment_computed-torque</name>
+        <environment>YARP_ROBOT_NAME=icubGazeboSim</environment>
         <dependencies>
             <port timeout="10">/icubSim/right_leg/state:o</port>
         </dependencies>
