@@ -12,8 +12,6 @@ nc='\033[0m'
 code_dir=$(pwd)/../
 test_dir=$(pwd)
 
-export YARP_ROBOT_NAME=icubGazeboSim
-
 if [ -d build ]; then
     rm -Rf build
 fi
