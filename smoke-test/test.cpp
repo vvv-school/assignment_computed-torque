@@ -8,8 +8,10 @@
 #include <sstream>
 #include <vector>
 
-#include <rtf/yarp/YarpTestCase.h>
+#include <yarp/rtf/TestCase.h>
 #include <rtf/dll/Plugin.h>
+#include <rtf/TestAssert.h>
+
 
 #include <yarp/os/all.h>
 #include <yarp/sig/Vector.h>
@@ -28,7 +30,7 @@ struct JointError{
 };
 
 /**********************************************************************/
-class TestAssignmentComputedTorque : public YarpTestCase
+class TestAssignmentComputedTorque : public yarp::rtf::TestCase
 {
     BufferedPort<Vector> portReference;
     Vector references;
@@ -38,7 +40,7 @@ class TestAssignmentComputedTorque : public YarpTestCase
 public:
     /******************************************************************/
     TestAssignmentComputedTorque() :
-        YarpTestCase("TestAssignmentComputedTorque"), m_robot(0)
+        yarp::rtf::TestCase("TestAssignmentComputedTorque"), m_robot(0)
     {
     }
 
