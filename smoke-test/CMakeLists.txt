@@ -11,7 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins)
 set(CMAKE_SHARED_MODULE_PREFIX "")
 
 # add the required cmake packages
-find_package(RTF COMPONENTS DLL)
+find_package(RTF 1.1 COMPONENTS DLL)
 find_package(YARP REQUIRED)
 find_package(yarpWholeBodyInterface REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -29,7 +29,7 @@ include_directories(SYSTEM
                     ${EIGEN3_INCLUDE_DIR})
 
 # add required libraries
-link_libraries(${RTF_LIBRARIES} ${YARP_LIBRARIES} ${yarpWholeBodyInterface_LIBRARIES})
+link_libraries(${RTF_LIBRARIES} ${YARP_LIBRARIES} YARP::YARP_rtf  ${yarpWholeBodyInterface_LIBRARIES})
 
 # add the source codes to build the plugin library
 add_library(${PROJECT_NAME} MODULE test.cpp)
