@@ -28,8 +28,8 @@ include_directories(SYSTEM
                     ${yarpWholeBodyInterface_INCLUDE_DIRS}
                     ${EIGEN3_INCLUDE_DIR})
 
-# add required libraries
-link_libraries(${RTF_LIBRARIES} ${YARP_LIBRARIES} YARP::YARP_rtf  ${yarpWholeBodyInterface_LIBRARIES})
-
 # add the source codes to build the plugin library
 add_library(${PROJECT_NAME} MODULE test.cpp)
+
+# add required libraries
+target_link_libraries(${PROJECT_NAME} ${RTF_LIBRARIES} ${YARP_LIBRARIES} YARP::YARP_rtf ${yarpWholeBodyInterface_LIBRARIES})
