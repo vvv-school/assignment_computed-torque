@@ -24,7 +24,6 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(SYSTEM
                     ${RTF_INCLUDE_DIRS}
                     ${YARP_INCLUDE_DIRS}
-                    ${YARP_HELPERS_INCLUDE_DIR}
                     ${yarpWholeBodyInterface_INCLUDE_DIRS}
                     ${EIGEN3_INCLUDE_DIR})
 
