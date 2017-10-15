@@ -129,7 +129,7 @@ RTF_TEST_REPORT(Asserter::format("DOFS: %d", actuatedDOFs));
 
         Vector currentConfigurationVector(references.size(), 0.0);
      
-        RTF_ASSERT_ERROR_IF(m_robot->getEstimates(wbi::ESTIMATE_JOINT_POS, currentConfigurationVector.data()), "Failed to retrieve robot configuration");
+        RTF_ASSERT_ERROR_IF_FALSE(m_robot->getEstimates(wbi::ESTIMATE_JOINT_POS, currentConfigurationVector.data()), "Failed to retrieve robot configuration");
         
         double maxJointError = 5.0 * M_PI / 180.0;
         
@@ -158,7 +158,7 @@ RTF_TEST_REPORT(Asserter::format("DOFS: %d", actuatedDOFs));
                                                  it->index, it->expected, it->value));
             }
 
-        RTF_ASSERT_ERROR_IF(errors.empty(), "Error in tracking reference");
+        RTF_ASSERT_ERROR_IF_FALSE(errors.empty(), "Error in tracking reference");
 
     }
 };
