@@ -11,7 +11,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins)
 set(CMAKE_SHARED_MODULE_PREFIX "")
 
 # add the required cmake packages
-find_package(RTF 1.1 COMPONENTS DLL)
+find_package(RTF 1.3 COMPONENTS DLL)
 find_package(YARP REQUIRED)
 find_package(yarpWholeBodyInterface REQUIRED)
 find_package(Eigen3 REQUIRED)
