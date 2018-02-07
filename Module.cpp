@@ -114,11 +114,12 @@ bool Module::configure (yarp::os::ResourceFinder &rf)
     Bottle & remoteControlBoardsList = remoteControlBoards.addList();
 
     // the iCub also expose a head part, that is not included because we are not controlling any head part
-    remoteControlBoardsList.addString("/icub/torso");
-    remoteControlBoardsList.addString("/icub/left_arm");
-    remoteControlBoardsList.addString("/icub/right_arm");
-    remoteControlBoardsList.addString("/icub/left_leg");
-    remoteControlBoardsList.addString("/icub/right_leg");
+    std::string robotPortPrefix = rf.check("robot", yarp::os::Value("icubSim"), "Port prefix used for the controlboards").asString();
+    remoteControlBoardsList.addString("/"+robotPortPrefix+"/torso");
+    remoteControlBoardsList.addString("/"+robotPortPrefix+"/left_arm");
+    remoteControlBoardsList.addString("/"+robotPortPrefix+"/right_arm");
+    remoteControlBoardsList.addString("/"+robotPortPrefix+"/left_leg");
+    remoteControlBoardsList.addString("/"+robotPortPrefix+"/right_leg");
 
     options.put("remoteControlBoards",remoteControlBoards.get(0));
     options.put("localPortPrefix","/test");
