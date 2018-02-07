@@ -13,7 +13,6 @@ set(CMAKE_SHARED_MODULE_PREFIX "")
 # add the required cmake packages
 find_package(RTF 1.3 COMPONENTS DLL)
 find_package(YARP REQUIRED)
-find_package(yarpWholeBodyInterface REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
