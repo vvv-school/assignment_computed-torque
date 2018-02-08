@@ -15,7 +15,6 @@
 #include <rtf/dll/Plugin.h>
 #include <rtf/TestAssert.h>
 
-
 #include <yarp/os/all.h>
 #include <yarp/sig/Vector.h>
 #include <yarp/dev/PolyDriver.h>
@@ -130,15 +129,6 @@ public:
     {
         ResourceFinder rf = ResourceFinder::getResourceFinderSingleton();
 
-        Property wbiProperties;
-        std::string wbiConfFile = property.check("wbi_config_file", Value("yarpWholeBodyInterface.ini"), "Checking wbi configuration file").asString();
-
-        if (!wbiProperties.fromConfigFile(rf.findFile(wbiConfFile))) {
-            RTF_ASSERT_FAIL("Not possible to load WBI properties from file.");
-            return false;
-        }
-        wbiProperties.fromString(property.toString(), false);
-
         //retrieve the joint list
         std::vector<std::string> iCubMainJoints = getiCubJointsControlledInTorque();
 
@@ -162,7 +152,7 @@ public:
         remoteControlBoardsList.addString("/"+robotPortPrefix+"/right_leg");
 
         options.put("remoteControlBoards",remoteControlBoards.get(0));
-        options.put("localPortPrefix","/test");
+        options.put("localPortPrefix","/TestAssignmentComputedTorque");
         Property & remoteControlBoardsOpts = options.addGroup("REMOTE_CONTROLBOARD_OPTIONS");
         remoteControlBoardsOpts.put("writeStrict","on");
 
@@ -185,6 +175,11 @@ public:
 
         referencesInRad.resize(actuatedDOFs, 0.0);
         yarp::sig::Vector referencesInDeg(referencesInRad.size(), 0.0);
+        
+        if (!portReference.open("/TestAssignmentComputedTorque/qDes:o")) {
+            RTF_ASSERT_FAIL("Could not open reference port.");
+            return false;
+        }
 
         // get initial configuration
         // Make sure that we are reading data from the robot before proceeding

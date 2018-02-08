@@ -7,4 +7,3 @@
 # Put here those instructions we need to execute after having run the test
 
 unset YARP_ROBOT_NAME
-
