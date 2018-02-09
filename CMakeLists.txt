@@ -4,7 +4,7 @@ project(assignment_computed-torque)
 
 find_package(YARP REQUIRED)
 find_package(ICUBcontrib REQUIRED)
-find_package(yarpWholeBodyInterface REQUIRED)
+find_package(iDynTree REQUIRED)
 
 # extend the current search path used by cmake to load helpers
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
@@ -18,13 +18,20 @@ include(ICUBcontribOptions)
 # specify to install in $ICUBcontrib_DIR/bin
 icubcontrib_set_default_prefix()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(SYSTEM ${yarpWholeBodyInterface_INCLUDE_DIRS} ${YARP_INCLUDE_DIRS})
-
 add_executable(${PROJECT_NAME} main.cpp Module.h Module.cpp)
-target_link_libraries(${PROJECT_NAME} ${yarpWholeBodyInterface_LIBRARIES} ${YARP_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS}})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${YARP_LIBRARIES} ${iDynTree_LIBRARIES})
+
+# Use M_PI in Windows Visual Studio
+if(MSVC)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE _USE_MATH_DEFINES)
+endif()
+
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 
 # generate ad-hoc project to perform "make uninstall"
 icubcontrib_add_uninstall_target()
+
+file(GLOB scripts ${CMAKE_SOURCE_DIR}/app/scripts/*.xml)
+yarp_install(FILES ${scripts} DESTINATION ${ICUBCONTRIB_APPLICATIONS_INSTALL_DIR})
