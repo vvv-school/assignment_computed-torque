@@ -1,0 +1,20 @@
+<application>
+
+  <name>Assignment on Computed Torque</name>
+
+  <dependencies>
+      <port>/yarplogger</port>
+      <port>/icubSim/right_leg/stateExt:o</port>
+      <port>/icubSim/left_leg/stateExt:o</port>
+      <port>/icubSim/right_arm/stateExt:o</port>
+      <port>/icubSim/left_arm/stateExt:o</port>
+      <port>/icubSim/torso/stateExt:o</port>
+  </dependencies>
+
+  <module>
+      <name>assignment_computed-torque</name>
+      <environment>YARP_FORWARD_LOG_ENABLE=1</environment>
+      <node>localhost</node>
+  </module>
+
+</application>
