@@ -18,10 +18,10 @@
 #include <yarp/os/all.h>
 #include <yarp/sig/Vector.h>
 #include <yarp/dev/PolyDriver.h>
-#include <yarp/dev/IControlLimits2.h>
+#include <yarp/dev/IControlLimits.h>
 #include <yarp/dev/IEncoders.h>
 #include <yarp/dev/IControlMode.h>
-#include <yarp/dev/IPositionControl2.h>
+#include <yarp/dev/IPositionControl.h>
 #include <yarp/dev/ITorqueControl.h>
 
 using namespace RTF;
@@ -94,9 +94,9 @@ class TestAssignmentComputedTorque : public yarp::rtf::TestCase
     yarp::dev::PolyDriver robotDevice;
 
     // YARP Interfaces exposed by the remotecontrolboardremapper
-    yarp::dev::IControlLimits2   *ilim{nullptr};
+    yarp::dev::IControlLimits    *ilim{nullptr};
     yarp::dev::IEncoders         *ienc{nullptr};
-    yarp::dev::IControlMode2     *imod{nullptr};
+    yarp::dev::IControlMode      *imod{nullptr};
     yarp::dev::ITorqueControl    *itrq{nullptr};
 
     void convertDegToRad(const yarp::sig::Vector& vecDeg, yarp::sig::Vector& vecRad)
