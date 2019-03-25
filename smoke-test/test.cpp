@@ -11,9 +11,9 @@
 
 #include <Eigen/Core>
 
-#include <yarp/rtf/TestCase.h>
-#include <rtf/dll/Plugin.h>
-#include <rtf/TestAssert.h>
+#include <yarp/robottestingframework/TestCase.h>
+#include <robottestingframework/dll/Plugin.h>
+#include <robottestingframework/TestAssert.h>
 
 #include <yarp/os/all.h>
 #include <yarp/sig/Vector.h>
@@ -24,7 +24,7 @@
 #include <yarp/dev/IPositionControl.h>
 #include <yarp/dev/ITorqueControl.h>
 
-using namespace RTF;
+using namespace robottestingframework;
 using namespace yarp::os;
 using namespace yarp::sig;
 
@@ -86,7 +86,7 @@ std::vector<std::string> getiCubJointsControlledInTorque()
 }
 
 /**********************************************************************/
-class TestAssignmentComputedTorque : public yarp::rtf::TestCase
+class TestAssignmentComputedTorque : public yarp::robottestingframework::TestCase
 {
     BufferedPort<Vector> portReference;
     Vector referencesInRad;
@@ -102,7 +102,7 @@ class TestAssignmentComputedTorque : public yarp::rtf::TestCase
     void convertDegToRad(const yarp::sig::Vector& vecDeg, yarp::sig::Vector& vecRad)
     {
         if (vecDeg.size() != vecRad.size()) {
-            RTF_ASSERT_FAIL("convertDegToRad: wrong vector size");
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("convertDegToRad: wrong vector size");
             return;
         }
 
@@ -115,7 +115,7 @@ class TestAssignmentComputedTorque : public yarp::rtf::TestCase
 public:
     /******************************************************************/
     TestAssignmentComputedTorque() :
-        yarp::rtf::TestCase("TestAssignmentComputedTorque")
+        yarp::robottestingframework::TestCase("TestAssignmentComputedTorque")
     {
     }
 
@@ -133,7 +133,7 @@ public:
         std::vector<std::string> iCubMainJoints = getiCubJointsControlledInTorque();
 
         unsigned actuatedDOFs = iCubMainJoints.size();
-        RTF_TEST_REPORT(Asserter::format("DOFS: %d", actuatedDOFs));
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("DOFS: %d", actuatedDOFs));
 
         // Open the remotecontrolboardremapper
         Property options;
@@ -158,7 +158,7 @@ public:
 
         bool ok = robotDevice.open(options);
         if (!ok) {
-            RTF_ASSERT_FAIL("Could not create remotecontrolboardremapper object.");
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("Could not create remotecontrolboardremapper object.");
             return false;
         }
 
@@ -169,7 +169,7 @@ public:
         ok=ok && robotDevice.view(itrq);
 
         if (!ok) {
-            RTF_ASSERT_FAIL("Could not create remotecontrolboardremapper object.");
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("Could not create remotecontrolboardremapper object.");
             return false;
         }
 
@@ -177,7 +177,7 @@ public:
         yarp::sig::Vector referencesInDeg(referencesInRad.size(), 0.0);
         
         if (!portReference.open("/TestAssignmentComputedTorque/qDes:o")) {
-            RTF_ASSERT_FAIL("Could not open reference port.");
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("Could not open reference port.");
             return false;
         }
 
@@ -192,7 +192,7 @@ public:
         }
 
         if (!readEncoderSuccess) {
-            RTF_ASSERT_FAIL("Unable to read encoders, exiting.");
+            ROBOTTESTINGFRAMEWORK_ASSERT_FAIL("Unable to read encoders, exiting.");
             return false;
         }
 
@@ -201,14 +201,14 @@ public:
         // as refernce sum 40 degs to the first joint of the torso
         referencesInRad(0) += ((40.0 * M_PI) / 180.0);
 
-        RTF_ASSERT_FAIL_IF_FALSE(Network::connect("/TestAssignmentComputedTorque/qDes:o", "/computed-torque/qDes:i"), "Failed to connect ports");
+        ROBOTTESTINGFRAMEWORK_ASSERT_FAIL_IF_FALSE(Network::connect("/TestAssignmentComputedTorque/qDes:o", "/computed-torque/qDes:i"), "Failed to connect ports");
         return true;
     }
 
     /******************************************************************/
     virtual void tearDown()
     {
-        RTF_TEST_REPORT("Closing Ports");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Closing Ports");
         portReference.close();
         robotDevice.close();
     }
@@ -218,7 +218,7 @@ public:
     /******************************************************************/
     virtual void run()
     {
-        RTF_ASSERT_FAIL_IF_FALSE(robotDevice.isValid(), "remotecontrolboardremapper is not valid. Test internal failure");
+        ROBOTTESTINGFRAMEWORK_ASSERT_FAIL_IF_FALSE(robotDevice.isValid(), "remotecontrolboardremapper is not valid. Test internal failure");
 
         Time::delay(5.0);
         // sending references to the port
@@ -226,13 +226,13 @@ public:
         outReference = referencesInRad;
         portReference.write();
 
-        RTF_TEST_REPORT("Waiting the controller to adapt to the new reference");
+        ROBOTTESTINGFRAMEWORK_TEST_REPORT("Waiting the controller to adapt to the new reference");
         Time::delay(10.0);
 
         Vector currentConfigurationVectorInDeg(referencesInRad.size(), 0.0);
         Vector currentConfigurationVectorInRad(referencesInRad.size(), 0.0);
 
-        RTF_ASSERT_ERROR_IF_FALSE(ienc->getEncoders(currentConfigurationVectorInDeg.data()), "Failed to retrieve robot configuration");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(ienc->getEncoders(currentConfigurationVectorInDeg.data()), "Failed to retrieve robot configuration");
         convertDegToRad(currentConfigurationVectorInDeg, currentConfigurationVectorInRad);
 
         double maxJointError = 5.0 * M_PI / 180.0;
@@ -258,13 +258,13 @@ public:
 
         for (std::vector<JointError>::const_iterator it = errors.begin();
             it != errors.end(); ++it) {
-                RTF_TEST_REPORT(Asserter::format("Joint[%d]. Expected %lf - Actual %lf [rad]",
+                ROBOTTESTINGFRAMEWORK_TEST_REPORT(Asserter::format("Joint[%d]. Expected %lf - Actual %lf [rad]",
                                                  it->index, it->expected, it->value));
             }
 
-        RTF_ASSERT_ERROR_IF_FALSE(errors.empty(), "Error in tracking reference");
+        ROBOTTESTINGFRAMEWORK_ASSERT_ERROR_IF_FALSE(errors.empty(), "Error in tracking reference");
 
     }
 };
 
-PREPARE_PLUGIN(TestAssignmentComputedTorque)
+ROBOTTESTINGFRAMEWORK_PREPARE_PLUGIN(TestAssignmentComputedTorque)

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(assignment_computed-torque)
 
-find_package(YARP 3.0 REQUIRED)
+find_package(YARP 3.1.101 REQUIRED)
 find_package(ICUBcontrib REQUIRED)
 find_package(iDynTree REQUIRED)
 
